@@ -65,7 +65,7 @@ nav.tabs button.active{background:var(--accent);color:#fff}
 .card-title small{font-weight:600;color:var(--muted);font-size:12px}
 
 /* calendar */
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
 .cal-head h2{font-size:22px;font-weight:800;letter-spacing:-.4px}
 .cal-nav{display:flex;gap:6px}
 .btn{border:0;border-radius:11px;padding:9px 16px;font-weight:700;font-size:14px;transition:.15s;background:var(--surface2);color:var(--text)}
@@ -228,6 +228,20 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
 .day-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:12px;margin-bottom:8px;border-left:4px solid var(--c)}
 .day-item .bi-body small{display:block}
 
+/* weekday picker / blocked */
+.wd-pick{display:flex;gap:6px;margin:-4px 0 14px}
+.wd-pick button{flex:1;border:0;padding:9px 0;border-radius:10px;background:var(--surface2);font-weight:800;font-size:13px;color:var(--muted);transition:.15s}
+.wd-pick button.on{background:var(--accent);color:#fff}
+.wd-pick button[data-d="0"].on{background:var(--danger)}
+.wd-pick button[data-d="6"].on{background:#3b82f6}
+.cell.blocked{background-image:repeating-linear-gradient(135deg,transparent 0 9px,rgba(236,75,92,.09) 9px 18px)}
+.blk{font-size:10px;font-weight:800;color:var(--danger);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btask{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface2);margin-bottom:6px;cursor:pointer;border-left:4px solid var(--c)}
+.btask input{width:18px;height:18px;accent-color:var(--c);flex-shrink:0}
+.btask .bt-name{font-weight:700;font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btask small{color:var(--muted);font-size:12px;white-space:nowrap}
+#bTasks{margin-bottom:12px}
+
 /* toast */
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--surface);padding:12px 18px;border-radius:13px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -270,6 +284,7 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
       <div class="cal-head">
         <h2 id="calTitle"></h2>
         <div class="cal-nav">
+          <button class="btn sm" id="blockBtn">🚫 못하는 날</button>
           <button class="btn sm" id="prevM">‹</button>
           <button class="btn sm" id="todayM">오늘</button>
           <button class="btn sm" id="nextM">›</button>
@@ -281,6 +296,7 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
         <span><i style="background:#4f6bff"></i>완료</span>
         <span><i style="box-shadow:inset 0 0 0 1px var(--danger)"></i>미달</span>
         <span><i style="border:1.5px dashed #4f6bff"></i>⚑ 마감일 업무</span>
+        <span><i style="background:repeating-linear-gradient(135deg,transparent 0 3px,rgba(236,75,92,.45) 3px 5px)"></i>🚫 공부 못하는 날</span>
       </div>
     </div>
 
@@ -344,6 +360,11 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
           <label class="switch"><input type="checkbox" id="autoRb"><i></i></label></div>
       </div>
       <div class="card">
+        <div class="card-title">🚫 공부 못하는 날</div>
+        <div id="blockList"></div>
+        <button class="btn primary sm" id="addBlockBtn" style="margin-top:6px">＋ 못하는 날 추가</button>
+      </div>
+      <div class="card">
         <div class="card-title">💾 데이터</div>
         <div class="opt-row"><div><b>백업 내보내기</b><small>JSON 파일로 저장</small></div><button class="btn" id="exportBtn">내보내기</button></div>
         <div class="opt-row"><div><b>백업 가져오기</b><small>저장한 JSON 불러오기</small></div><button class="btn" id="importBtn">가져오기</button><input type="file" id="importFile" accept=".json" hidden></div>
@@ -380,6 +401,13 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
         <div class="field"><label>종료일</label><input type="date" id="fEnd"></div>
       </div>
       <div class="field"><label>시작 번호 <small>(선택 · 예: 35페이지부터 시작)</small></label><input type="number" id="fStartNo" placeholder="1"></div>
+      <label class="switch-row">
+        <div><b>📆 요일 지정</b><small>선택한 요일에만 분량을 나눠요</small></div>
+        <span class="switch"><input type="checkbox" id="fDaysOn"><i></i></span>
+      </label>
+      <div class="wd-pick" id="wdPick" hidden>
+        <button type="button" data-d="1">월</button><button type="button" data-d="2">화</button><button type="button" data-d="3">수</button><button type="button" data-d="4">목</button><button type="button" data-d="5">금</button><button type="button" data-d="6">토</button><button type="button" data-d="0">일</button>
+      </div>
       <div class="preview" id="preview">분량과 기간을 입력하면 하루 분량을 계산해요</div>
     </div>
     <div id="dlFields" hidden>
@@ -387,6 +415,25 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
       <div class="field"><label>메모 <small>(선택)</small></label><input id="fMemo" placeholder="예) 보고서 제출"></div>
     </div>
     <div class="modal-foot"><button class="btn ghost" data-close>취소</button><button class="btn primary" id="fSave">저장</button></div>
+  </div>
+</div>
+
+<!-- Block modal -->
+<div class="overlay" id="blockModal">
+  <div class="modal">
+    <div class="modal-head"><h3>🚫 공부 못하는 날</h3><button class="icon-btn" data-close>✕</button></div>
+    <div class="row2">
+      <div class="field"><label>시작일</label><input type="date" id="bStart"></div>
+      <div class="field"><label>종료일 <small>(하루면 같은 날)</small></label><input type="date" id="bEnd"></div>
+    </div>
+    <div class="field"><label>사유 <small>(선택)</small></label><input id="bMemo" placeholder="예) 가족 여행, 학교 행사"></div>
+    <label class="switch-row">
+      <div><b>모든 과목 쉬기</b><small>끄면 못하는 과목만 골라서 체크해요</small></div>
+      <span class="switch"><input type="checkbox" id="bAll" checked><i></i></span>
+    </label>
+    <div id="bTasks" hidden></div>
+    <div class="preview" id="bPreview"></div>
+    <div class="modal-foot"><button class="btn ghost" data-close>취소</button><button class="btn primary" id="bSave">저장하고 재분배</button></div>
   </div>
 </div>
 
@@ -418,7 +465,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 
 /* ---------- state ---------- */
 function defaultState(){
-  return { tasks:[], names:{}, lastDay:null,
+  return { tasks:[], names:{}, blocks:[], lastDay:null,
     settings:{ theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light', autoRebalance:true } };
 }
 function load(){
@@ -452,22 +499,41 @@ function rgba(hex, a){ const h = hex.replace('#',''); const n = parseInt(h.lengt
   return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
 
 // 남은 분량을 from(오늘 또는 시작일) ~ 종료일에 고르게 분배
+const wdText = days => days.map(i => DOW[i]).join('·');
+const blockHits = (b, t) => b.all || (b.taskIds || []).includes(t.id);
+function blocksOn(d){ return (state.blocks || []).filter(b => d >= b.start && d <= b.end); }
+function isBlocked(t, d){ return (state.blocks || []).some(b => d >= b.start && d <= b.end && blockHits(b, t)); }
+function isAvail(t, d){ return (!t.days || !t.days.length || t.days.includes(pd(d).getDay())) && !isBlocked(t, d); }
+function availDays(t, from){ const out = []; for(let d = from; d <= t.end; d = addDays(d, 1)) if(isAvail(t, d)) out.push(d); return out; }
+
+// 남은 분량을 공부 가능한 날(지정 요일 · 쉬는 날 제외)에 고르게 분배
 function planFrom(t, today){
   let from = t.start > today ? t.start : today;
   if(from > t.end) return false;
-  // 오늘 목표를 이미 채웠거나 더 했다면: 오늘 목표는 그대로 두고,
-  // 오늘까지 한 전체 양(초과분 포함)을 빼고 내일부터 다시 분배
   const doneToday = t.done[today] || 0;
-  if(from === today && doneToday > 0 && doneToday >= (t.plan[today] || 0)){
+  let R;
+  // 오늘 목표를 채웠거나 더 했거나, 오늘이 쉬는 날인데 이미 한 게 있으면 → 오늘까지 한 양을 모두 빼고 내일부터 분배
+  if(from === today && doneToday > 0 && (doneToday >= (t.plan[today] || 0) || !isAvail(t, today))){
+    if(!isAvail(t, today)) delete t.plan[today];
+    R = t.total - sumObj(t.done, k => k <= today);
     from = addDays(today, 1);
-    if(from > t.end){ for(const k of Object.keys(t.plan)) if(k > today) delete t.plan[k]; return true; }
-  }
-  const before = sumObj(t.done, k => k < from);
-  const R = Math.max(0, t.total - before);
+  } else R = t.total - sumObj(t.done, k => k < from);
+  R = Math.max(0, R);
   for(const k of Object.keys(t.plan)) if(k >= from) delete t.plan[k];
-  const n = diff(t.end, from) + 1, base = Math.floor(R / n), rem = R % n;
-  for(let i=0;i<n;i++){ const a = base + (i < rem ? 1 : 0); if(a > 0) t.plan[addDays(from,i)] = a; }
+  if(from > t.end) return true;
+  const days = availDays(t, from);
+  if(!days.length) return R === 0;
+  const n = days.length, base = Math.floor(R / n), rem = R % n;
+  days.forEach((d, i) => { const a = base + (i < rem ? 1 : 0); if(a > 0) t.plan[d] = a; });
   return true;
+}
+function rebalanceFor(pred){
+  const today = studyDay(); let n = 0;
+  for(const t of state.tasks){
+    if(t.deadlineOnly || remaining(t) === 0 || t.end < today) continue;
+    if(pred(t) && planFrom(t, today)) n++;
+  }
+  return n;
 }
 
 function checkDayChange(){
@@ -575,9 +641,10 @@ function renderCalendar(){
     const d = new Date(start); d.setDate(start.getDate()+i);
     const s = ds(d), dw = d.getDay();
     const ents = dayEntries(s, today);
-    const max = 3;
-    h += `<div class="cell ${d.getMonth()!==calM?'other':''} ${s===today?'today':''}" data-day="${s}">
+    const max = 3, blks = blocksOn(s);
+    h += `<div class="cell ${d.getMonth()!==calM?'other':''} ${s===today?'today':''} ${blks.length?'blocked':''}" data-day="${s}">
       <div class="num ${dw===0?'sun':dw===6?'sat':''}"><span>${d.getDate()}</span>${s===today?'<span class="today-tag">오늘</span>':''}</div>
+      ${blks.length ? `<div class="blk" title="${esc(blks.map(b => b.memo || '쉬는 날').join(', '))}">🚫 ${esc(blks[0].memo || (blks.some(b => b.all) ? '전체 쉼' : '일부 쉼'))}</div>` : ''}
       ${ents.slice(0,max).map(chipHtml).join('')}
       ${ents.length>max?`<div class="more">+${ents.length-max}개 더</div>`:''}
     </div>`;
@@ -690,7 +757,7 @@ function renderList(){
     const days = diff(t.end, t.start) + 1;
     return `<div class="lrow" style="${cv(t.color)}"><span class="dot"></span>
       <div><div class="name">${esc(t.name)} <span class="badge ${sc}">${st}</span></div>
-      <div class="meta">${short(t.start)} ~ ${short(t.end)} (${days}일) · 총 ${fmt(t.total,t.unit)} · 오늘 ${t.plan[today] ? fmt(t.plan[today],t.unit) : '-'}</div></div>
+      <div class="meta">${short(t.start)} ~ ${short(t.end)} (${days}일)${t.days && t.days.length ? ' · 📆 ' + wdText(t.days) : ''} · 총 ${fmt(t.total,t.unit)} · 오늘 ${t.plan[today] ? fmt(t.plan[today],t.unit) : '-'}</div></div>
       <div class="prog"><small>${dn}/${fmt(t.total,t.unit)} · ${p}%</small><div class="bar"><i style="width:${p}%"></i></div></div>
       <div class="acts"><button class="btn sm" data-act="edit" data-id="${t.id}">수정</button><button class="btn sm danger" data-act="del" data-id="${t.id}">삭제</button></div></div>`;
   };
@@ -704,6 +771,12 @@ function renderList(){
 function renderOptions(){
   $$('#themeSeg button').forEach(b => b.classList.toggle('active', b.dataset.t === state.settings.theme));
   $('#autoRb').checked = !!state.settings.autoRebalance;
+  const today = studyDay();
+  const bl = (state.blocks || []).slice().sort((a,b) => a.start.localeCompare(b.start));
+  $('#blockList').innerHTML = bl.length ? bl.map(b => `<div class="bitem ${b.end < today ? 'done' : ''}" style="--c:var(--danger)"><span>🚫</span>
+      <div class="bi-body"><b>${short(b.start)}(${DOW[pd(b.start).getDay()]})${b.end !== b.start ? ` ~ ${short(b.end)}(${DOW[pd(b.end).getDay()]})` : ''}${b.memo ? ' · ' + esc(b.memo) : ''}</b><small>${blockNames(b)}</small></div>
+      <button class="x-btn" data-act="delBlock" data-bid="${b.id}" title="삭제">✕</button></div>`).join('')
+    : '<div class="empty">지정한 날이 없어요</div>';
 }
 
 /* ---------- task modal ---------- */
@@ -752,9 +825,19 @@ function updatePreview(){
   const from = s > today ? s : today;
   let done = 0;
   if(editingId){ const t = state.tasks.find(x => x.id === editingId); if(t) done = sumObj(t.done, k => k < from); }
-  const R = Math.max(0, total - done), n = diff(e, from) + 1;
-  const lo = Math.floor(R/n), hi = Math.ceil(R/n);
-  pv.innerHTML = `📅 ${short(from)}부터 <b>${n}일</b> 동안 하루 <b>${lo===hi?fmt(lo,u):fmt(lo,u)+'~'+fmt(hi,u)}</b>씩` + (done ? ` (이미 ${fmt(done,u)} 완료)` : '');
+  const days = getFormDays();
+  if(days && !days.length){ pv.classList.add('err'); pv.textContent = '요일을 하나 이상 선택해 주세요'; return; }
+  const n = availDays({ id: editingId || '__new', days, end: e }, from).length;
+  if(!n){ pv.classList.add('err'); pv.textContent = '기간 안에 공부할 수 있는 날이 없어요 (요일 · 쉬는 날 확인)'; return; }
+  const R = Math.max(0, total - done);
+  const lo = Math.floor(R/n), hi = Math.ceil(R/n), all = diff(e, from) + 1;
+  pv.innerHTML = `📅 ${short(from)}~${short(e)} 중 <b>${n}일</b>${days ? ` (${wdText(days)})` : ''} 동안 하루 <b>${lo===hi?fmt(lo,u):fmt(lo,u)+'~'+fmt(hi,u)}</b>씩`
+    + (n < all ? ` · ${all - n}일 쉼` : '') + (done ? ` (이미 ${fmt(done,u)} 완료)` : '');
+}
+function getFormDays(){
+  if(!$('#fDaysOn').checked) return null;
+  const a = $$('#wdPick button.on').map(b => +b.dataset.d);
+  return a.length === 7 ? null : a;
 }
 function toggleDlFields(){ const on = $('#fDl').checked; $('#rangeFields').hidden = on; $('#dlFields').hidden = !on; }
 
@@ -773,6 +856,9 @@ function openTaskModal(t){
   $('#fDeadline').value = t && t.deadline ? t.deadline : addDays(today, 7);
   $('#fMemo').value = t && t.memo ? t.memo : '';
   setColor(t ? t.color : nextColor());
+  const dset = t && t.days && t.days.length ? t.days : null;
+  $('#fDaysOn').checked = !!dset; $('#wdPick').hidden = !dset;
+  $$('#wdPick button').forEach(b => b.classList.toggle('on', dset ? dset.includes(+b.dataset.d) : true));
   toggleDlFields(); updateSuggest(); updatePreview();
   openModal('#taskModal');
   setTimeout(() => $('#fName').focus(), 50);
@@ -795,8 +881,11 @@ function saveTask(){
     if(end < start) return toast('종료일이 시작일보다 빨라요');
     if(end < today) return toast('종료일은 오늘 이후로 설정해 주세요');
     const startNo = parseInt($('#fStartNo').value, 10) || 1;
+    const days = getFormDays();
+    if(days && !days.length) return toast('요일을 하나 이상 선택해 주세요');
+    if(!availDays({ id: editingId || '__new', days, end }, start > today ? start : today).length) return toast('기간 안에 공부할 수 있는 날이 없어요');
     if(!t){ t = { id: uid(), plan:{}, done:{}, created: Date.now() }; state.tasks.push(t); }
-    Object.assign(t, { name, color: selColor, unit: $('#fUnit').value, total, start, end, startNo });
+    Object.assign(t, { name, color: selColor, unit: $('#fUnit').value, total, start, end, startNo, days });
     planFrom(t, today);
   }
   // 같은 이름은 같은 색으로
@@ -807,17 +896,73 @@ function saveTask(){
 }
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 
+/* ---------- 공부 못하는 날 ---------- */
+function blockNames(b){
+  if(b.all) return '모든 과목';
+  const n = (b.taskIds || []).map(id => state.tasks.find(t => t.id === id)).filter(Boolean).map(t => esc(t.name));
+  return n.length ? n.join(', ') : '(삭제된 과목)';
+}
+const blockable = () => { const today = studyDay(); return state.tasks.filter(t => !t.deadlineOnly && remaining(t) > 0 && t.end >= today); };
+function openBlockModal(day){
+  day = day || studyDay();
+  $('#bStart').value = day; $('#bEnd').value = day; $('#bMemo').value = ''; $('#bAll').checked = true;
+  const ts = blockable();
+  $('#bTasks').innerHTML = ts.length ? ts.map(t => `<label class="btask" style="${cv(t.color)}"><input type="checkbox" value="${t.id}"><span class="dot"></span><span class="bt-name">${esc(t.name)}</span><small data-amt="${t.id}"></small></label>`).join('')
+    : '<div class="empty" style="margin-bottom:12px">진행 중인 공부가 없어요</div>';
+  $('#bTasks').hidden = true;
+  updateBlockPreview(); openModal('#blockModal');
+}
+function updateBlockPreview(){
+  const pv = $('#bPreview'), s = $('#bStart').value, e = $('#bEnd').value || s, all = $('#bAll').checked, today = studyDay();
+  $('#bTasks').hidden = all;
+  pv.classList.remove('err');
+  if(!s){ pv.textContent = '날짜를 선택해 주세요'; return; }
+  if(e < s){ pv.classList.add('err'); pv.textContent = '종료일이 시작일보다 빨라요'; return; }
+  const ids = $$('#bTasks input:checked').map(i => i.value);
+  $$('#bTasks small[data-amt]').forEach(el => { const t = state.tasks.find(x => x.id === el.dataset.amt);
+    const a = sumObj(t.plan, k => k >= s && k <= e && k >= today); el.textContent = a ? `이 기간 ${fmt(a, t.unit)}` : ''; });
+  if(!all && !ids.length){ pv.textContent = '☝️ 못하는 과목을 체크해 주세요'; return; }
+  const moved = blockable().filter(t => all || ids.includes(t.id)).map(t => [t, sumObj(t.plan, k => k >= s && k <= e && k >= today)]).filter(x => x[1] > 0);
+  const n = diff(e, s) + 1;
+  pv.innerHTML = moved.length
+    ? `🔄 ${n}일 동안 쉬고, <b>${moved.map(([t,a]) => `${esc(t.name)} ${fmt(a, t.unit)}`).join(', ')}</b>을(를) 남은 날에 다시 나눠요`
+    : `${n}일을 쉬는 날로 지정해요 (옮길 분량 없음)`;
+}
+function saveBlock(){
+  const s = $('#bStart').value, e = $('#bEnd').value || s, all = $('#bAll').checked;
+  const ids = $$('#bTasks input:checked').map(i => i.value);
+  if(!s) return toast('날짜를 선택해 주세요');
+  if(e < s) return toast('종료일이 시작일보다 빨라요');
+  if(!all && !ids.length) return toast('못하는 과목을 체크해 주세요');
+  const b = { id: uid(), start: s, end: e, memo: $('#bMemo').value.trim(), all, taskIds: all ? [] : ids };
+  state.blocks.push(b);
+  const n = rebalanceFor(t => blockHits(b, t));
+  save(); closeModal('#blockModal'); render();
+  toast(`🚫 쉬는 날 지정 완료 · ${n}개 과목을 재분배했어요`);
+}
+function deleteBlock(id){
+  const b = state.blocks.find(x => x.id === id); if(!b) return;
+  if(!confirm('이 쉬는 날을 삭제할까요? 분량이 다시 나뉘어요.')) return;
+  state.blocks = state.blocks.filter(x => x !== b);
+  const n = rebalanceFor(t => blockHits(b, t));
+  save(); closeModal('#dayModal'); render();
+  toast(`삭제했어요 · ${n}개 과목을 재분배했어요`);
+}
+
 /* ---------- day modal ---------- */
 function openDay(d){
   const today = studyDay();
   const ents = dayEntries(d, today);
   $('#dmTitle').textContent = kDate(d) + (d === today ? ' · 오늘' : '');
-  $('#dmBody').innerHTML = ents.length ? ents.map(e => {
+  const blks = blocksOn(d);
+  const blkHtml = blks.map(b => `<div class="day-item" style="--c:var(--danger)"><span>🚫</span><div class="bi-body"><b>${esc(b.memo || '공부 못하는 날')}</b><small>${blockNames(b)}${b.start !== b.end ? ` · ${short(b.start)}~${short(b.end)}` : ''}</small></div><button class="x-btn" data-act="delBlock" data-bid="${b.id}" title="삭제">✕</button></div>`).join('');
+  $('#dmBody').innerHTML = blkHtml + (ents.length ? ents.map(e => {
     const t = e.t;
     if(e.flag) return `<div class="day-item" style="${cv(t.color)}"><span class="dot"></span><div class="bi-body"><b>⚑ ${esc(t.name)}</b><small>마감일${t.memo?' · '+esc(t.memo):''}${t.finished?' · 완료':''}</small></div></div>`;
     const st = (e.past || e.isToday) ? `${e.dn}/${fmt(e.p,t.unit)} ${e.p && e.dn>=e.p ? '<span class="badge ok">완료</span>' : e.past ? '<span class="badge danger">미달</span>' : ''}` : fmt(e.p,t.unit);
     return `<div class="day-item" style="${cv(t.color)}"><span class="dot"></span><div class="bi-body"><b>${esc(t.name)}</b><small>${st}</small></div></div>`;
-  }).join('') : '<div class="empty">이 날은 일정이 없어요</div>';
+  }).join('') : (blks.length ? '' : '<div class="empty">이 날은 일정이 없어요</div>'))
+    + `<button class="btn ghost" style="width:100%;margin-top:6px" data-act="newBlock" data-day="${d}">🚫 이 날 공부 못해요</button>`;
   openModal('#dayModal');
 }
 
@@ -848,6 +993,8 @@ document.addEventListener('submit', e => {
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-act]');
   if(a){
+    if(a.dataset.act === 'newBlock'){ closeModal('#dayModal'); openBlockModal(a.dataset.day); return; }
+    if(a.dataset.act === 'delBlock'){ deleteBlock(a.dataset.bid); return; }
     const t = state.tasks.find(x => x.id === a.dataset.id); if(!t) return;
     if(a.dataset.act === 'del'){ if(confirm(`'${t.name}'을(를) 삭제할까요?`)){ state.tasks = state.tasks.filter(x => x !== t); save(); render(); toast('삭제했어요'); } }
     if(a.dataset.act === 'edit') openTaskModal(t);
@@ -864,6 +1011,16 @@ $('#suggest').addEventListener('click', e => { const b = e.target.closest('.sg')
 $('#swatches').addEventListener('click', e => { const b = e.target.closest('.sw'); if(b) setColor(b.dataset.c); });
 $('#swatches').addEventListener('input', e => { if(e.target.id === 'swCustom'){ selColor = e.target.value; $$('.sw').forEach(s => s.classList.remove('on')); } });
 $('#fDl').addEventListener('change', toggleDlFields);
+$('#fDaysOn').addEventListener('change', () => { $('#wdPick').hidden = !$('#fDaysOn').checked; updatePreview(); });
+$('#wdPick').addEventListener('click', e => { const b = e.target.closest('button'); if(b){ b.classList.toggle('on'); updatePreview(); } });
+$('#blockBtn').onclick = () => openBlockModal();
+$('#addBlockBtn').onclick = () => openBlockModal();
+$('#bSave').onclick = saveBlock;
+['#bStart','#bEnd','#bAll'].forEach(x => $(x).addEventListener('input', () => {
+  if(x === '#bStart' && $('#bEnd').value < $('#bStart').value) $('#bEnd').value = $('#bStart').value;
+  updateBlockPreview(); }));
+$('#bAll').addEventListener('change', updateBlockPreview);
+$('#bTasks').addEventListener('change', updateBlockPreview);
 ['#fTotal','#fStart','#fEnd','#fUnit'].forEach(s => $(s).addEventListener('input', updatePreview));
 $('#fSave').onclick = saveTask;
 $('#taskModal').addEventListener('keydown', e => { if(e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); saveTask(); } });
