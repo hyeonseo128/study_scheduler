@@ -68,7 +68,7 @@ nav.tabs button.active{background:var(--accent);color:#fff}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
 .cal-head h2{font-size:22px;font-weight:800;letter-spacing:-.4px}
 .cal-nav{display:flex;gap:6px}
-.btn{border:0;border-radius:11px;padding:9px 16px;font-weight:700;font-size:14px;transition:.15s;background:var(--surface2);color:var(--text)}
+.btn{white-space:nowrap;flex-shrink:0;border:0;border-radius:11px;padding:9px 16px;font-weight:700;font-size:14px;transition:.15s;background:var(--surface2);color:var(--text)}
 .btn:hover{filter:brightness(.97)}
 .btn.primary{background:var(--accent);color:#fff}
 .btn.danger{background:transparent;color:var(--danger);box-shadow:inset 0 0 0 1.5px var(--danger)}
@@ -242,6 +242,23 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
 .btask small{color:var(--muted);font-size:12px;white-space:nowrap}
 #bTasks{margin-bottom:12px}
 
+/* cloud */
+.cloud-pill{border:0;font-size:12px;font-weight:700;background:var(--surface);color:var(--muted);padding:6px 11px;border-radius:99px;box-shadow:var(--shadow);max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cloud-pill.ok{color:var(--ok)}.cloud-pill.warn{color:var(--warn)}.cloud-pill.err{color:var(--danger)}
+.cloud-card{grid-column:1/-1}
+.c-desc{font-size:13px;color:var(--muted);margin-bottom:12px}
+.c-desc.warn{color:var(--warn);font-weight:600}
+.c-btns{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 10px}
+.chkline{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:12px;cursor:pointer}
+.chkline small{color:var(--muted)}
+.chkline input{width:16px;height:16px;accent-color:var(--accent)}
+.c-out{margin:6px 0 10px}
+.c-out textarea{display:block;width:100%;height:86px;margin:8px 0;border:1.5px solid var(--line);background:var(--surface2);border-radius:10px;padding:8px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;resize:vertical;word-break:break-all;color:var(--text)}
+.c-out code{background:var(--surface);padding:1px 6px;border-radius:5px;font-size:12px}
+.c-status{font-size:12px;font-weight:700;color:var(--muted);min-height:16px}
+.c-status.ok{color:var(--ok)}.c-status.warn{color:var(--warn)}.c-status.err{color:var(--danger)}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+
 /* toast */
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--surface);padding:12px 18px;border-radius:13px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -270,6 +287,7 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
   <header class="top">
     <div class="brand"><img class="logo" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%20%3Cdefs%3E%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%234f6bff%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a55eea%22/%3E%3C/linearGradient%3E%20%3ClinearGradient%20id%3D%22pg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%220%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%234f6bff%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a55eea%22/%3E%3C/linearGradient%3E%20%3Cfilter%20id%3D%22sh%22%20x%3D%22-20%25%22%20y%3D%22-20%25%22%20width%3D%22140%25%22%20height%3D%22140%25%22%3E%3CfeDropShadow%20dx%3D%220%22%20dy%3D%2210%22%20stdDeviation%3D%2214%22%20flood-color%3D%22%232a1a6e%22%20flood-opacity%3D%22.35%22/%3E%3C/filter%3E%20%3C/defs%3E%20%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22112%22%20fill%3D%22url%28%23bg%29%22/%3E%20%3Ccircle%20cx%3D%22420%22%20cy%3D%2290%22%20r%3D%22120%22%20fill%3D%22%23fff%22%20opacity%3D%22.08%22/%3E%20%3Ccircle%20cx%3D%2270%22%20cy%3D%22460%22%20r%3D%22110%22%20fill%3D%22%23fff%22%20opacity%3D%22.06%22/%3E%20%3Cg%20filter%3D%22url%28%23sh%29%22%3E%20%3Crect%20x%3D%22116%22%20y%3D%22136%22%20width%3D%22280%22%20height%3D%22262%22%20rx%3D%2240%22%20fill%3D%22%23fff%22/%3E%20%3C/g%3E%20%3Cpath%20d%3D%22M116%20176a40%2040%200%200%201%2040-40h200a40%2040%200%200%201%2040%2040v22H116z%22%20fill%3D%22%23ffc65c%22/%3E%20%3Crect%20x%3D%22176%22%20y%3D%22108%22%20width%3D%2224%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%232b2f55%22/%3E%20%3Crect%20x%3D%22312%22%20y%3D%22108%22%20width%3D%2224%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%232b2f55%22/%3E%20%3Cpath%20d%3D%22M190%20284l42%2042%2092-92%22%20fill%3D%22none%22%20stroke%3D%22url%28%23pg%29%22%20stroke-width%3D%2234%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%20%3Crect%20x%3D%22156%22%20y%3D%22352%22%20width%3D%22200%22%20height%3D%2216%22%20rx%3D%228%22%20fill%3D%22%23e9edff%22/%3E%20%3Crect%20x%3D%22156%22%20y%3D%22352%22%20width%3D%22136%22%20height%3D%2216%22%20rx%3D%228%22%20fill%3D%22url%28%23pg%29%22/%3E%20%3C/svg%3E" alt="">공부 스케줄러</div>
     <div class="reset-info" id="resetInfo">⏰ 매일 07:00 초기화</div>
+    <button class="cloud-pill" id="cloudPill" hidden></button>
     <nav class="tabs" id="tabs">
       <button data-view="main" class="active">캘린더</button>
       <button data-view="list">할 일 목록</button>
@@ -347,6 +365,10 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
   <!-- OPTIONS -->
   <section id="viewOptions" hidden>
     <div class="opt-grid">
+      <div class="card cloud-card">
+        <div class="card-title">☁️ 클라우드 저장 <small>GitHub Gist · 암호화 저장</small></div>
+        <div id="cloudBody"></div>
+      </div>
       <div class="card">
         <div class="card-title">🎨 화면</div>
         <div class="opt-row"><div><b>화면 모드</b><small>화이트 / 다크</small></div>
@@ -450,6 +472,13 @@ details.done-list summary{cursor:pointer;color:var(--muted);font-size:13px;font-
 <script>
 (() => {
 'use strict';
+/* =====================================================================
+   ☁️ 클라우드 저장 설정
+   옵션 → 클라우드 저장에서 만든 '잠긴 토큰' 문자열을 아래 따옴표 안에 붙여넣으세요.
+   토큰은 내 암호로 잠겨 있어서, 암호 없이는 꺼낼 수 없어요.
+   ===================================================================== */
+const CLOUD_LOCKED_TOKEN = 'SPL1.eyJpdCI6NjAwMDAwLCJzIjoiS2VJRFhxRG51OUQ4b3VDMVdGQ1NJZz09IiwiaSI6ImZycExLc2djTHV3UTUvUjIiLCJjIjoiNUMrcUpwd2RGWm5yNlJmWXJvamJzVlFMVWNGVjVOUUJjOWdhYmtwb0haVzM4NlV4MzByOHFuOHFkeHNJczMvSFF6RSt4YzZjQU9RPSJ9';
+
 const KEY = 'studyPlanner.v1';
 const RESET_HOUR = 7;
 const PALETTE = ['#4f6bff','#ff6b6b','#ff9f43','#f6c344','#1dd1a1','#10ac84','#48c6ef','#a55eea','#ff6fb5','#5f27cd','#00a8a8','#8395a7'];
@@ -475,7 +504,7 @@ function load(){
   return defaultState();
 }
 let state = load();
-const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} };
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} cloudTouched(); };
 
 /* ---------- dates ---------- */
 const pad = n => String(n).padStart(2,'0');
@@ -769,6 +798,7 @@ function renderList(){
 
 /* ---------- options ---------- */
 function renderOptions(){
+  renderCloud();
   $$('#themeSeg button').forEach(b => b.classList.toggle('active', b.dataset.t === state.settings.theme));
   $('#autoRb').checked = !!state.settings.autoRebalance;
   const today = studyDay();
@@ -1042,11 +1072,281 @@ $('#importFile').onchange = e => {
 };
 $('#clearBtn').onclick = () => { if(confirm('모든 데이터를 삭제할까요? 되돌릴 수 없어요.')){ const th = state.settings.theme; state = defaultState(); state.settings.theme = th; state.lastDay = studyDay(); save(); render(); toast('모두 삭제했어요'); } };
 
+/* ========== ☁️ 클라우드 저장 (GitHub Gist) ========== */
+const GIST_FILE = 'study-planner.enc.json';
+const CLOUD_KEY = 'studyPlanner.cloud';
+const KDF_IT = 600000;
+const DATA_SALT = new TextEncoder().encode('study-planner/data-key/v1');
+let cloud = (() => { try{ return JSON.parse(localStorage.getItem(CLOUD_KEY)) || {}; }catch(e){ return {}; } })();
+cloud = { autoSave:true, autoLoad:true, dirty:false, ...cloud };
+const saveCloudCfg = () => { try{ localStorage.setItem(CLOUD_KEY, JSON.stringify(cloud)); }catch(e){} };
+let session = null;            // 잠금 해제 후: { token, dataKey } (메모리에만 보관)
+let cloudMode = null;          // 'setup' = 토큰 설정 화면 강제
+let cloudOut = '';             // 방금 만든 잠긴 토큰
+let cloudStatus = { kind:'', text:'' };
+let suppressCloud = false, pushTimer = null, busy = false;
+
+const te = new TextEncoder(), td = new TextDecoder();
+function b64(buf){ const u = new Uint8Array(buf); let s = ''; for(let i=0;i<u.length;i+=0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i+0x8000)); return btoa(s); }
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function kdf(pw, salt, it){
+  const base = await crypto.subtle.importKey('raw', te.encode(pw), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name:'PBKDF2', salt, iterations:it, hash:'SHA-256' }, base, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']);
+}
+async function sealWith(key, text){ const iv = crypto.getRandomValues(new Uint8Array(12)); const c = await crypto.subtle.encrypt({ name:'AES-GCM', iv }, key, te.encode(text)); return { i:b64(iv), c:b64(c) }; }
+async function openWith(key, box){ return td.decode(await crypto.subtle.decrypt({ name:'AES-GCM', iv:unb64(box.i) }, key, unb64(box.c))); }
+const lockedToken = () => cloud.locked || CLOUD_LOCKED_TOKEN || '';
+function parseLocked(s){ try{ if(!s || !s.startsWith('SPL1.')) return null; const o = JSON.parse(atob(s.slice(5))); return o.s && o.c ? o : null; }catch(e){ return null; } }
+async function makeLocked(token, pw){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const box = await sealWith(await kdf(pw, salt, KDF_IT), token);
+  return 'SPL1.' + btoa(JSON.stringify({ it:KDF_IT, s:b64(salt), ...box }));
+}
+const fmtTime = t => { const d = new Date(t); return `${d.getMonth()+1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+
+async function gh(path, opts = {}, token = session && session.token){
+  let r;
+  try{
+    r = await fetch('https://api.github.com' + path, { ...opts, cache:'no-store',
+      headers:{ 'Accept':'application/vnd.github+json', 'Authorization':'Bearer ' + token, ...(opts.body ? { 'Content-Type':'application/json' } : {}) } });
+  }catch(e){ throw new Error('인터넷 연결을 확인해 주세요'); }
+  if(!r.ok){
+    let msg = `GitHub 오류 (${r.status})`;
+    if(r.status === 401) msg = '토큰이 만료됐거나 잘못됐어요. 토큰을 다시 설정해 주세요';
+    else if(r.status === 403 || (r.status === 404 && !path.startsWith('/gists/'))) msg = '토큰에 Gist 권한이 없어요';
+    const err = new Error(msg); err.status = r.status; throw err;
+  }
+  return r.json();
+}
+async function getRemote(){
+  if(cloud.gistId){
+    try{ const g = await gh('/gists/' + cloud.gistId); if(g.files && g.files[GIST_FILE]) return g; }
+    catch(e){ if(e.status !== 404) throw e; }
+    cloud.gistId = null; saveCloudCfg();
+  }
+  for(let page = 1; page <= 10; page++){
+    const list = await gh(`/gists?per_page=100&page=${page}`);
+    const f = list.find(g => g.files && g.files[GIST_FILE]);
+    if(f){ cloud.gistId = f.id; saveCloudCfg(); return gh('/gists/' + f.id); }
+    if(list.length < 100) break;
+  }
+  return null;
+}
+async function remoteContent(g){
+  const f = g.files[GIST_FILE];
+  if(f.truncated){ const r = await fetch(f.raw_url, { cache:'no-store' }); return r.text(); }
+  return f.content;
+}
+
+function setCloudStatus(kind, text){
+  cloudStatus = { kind, text };
+  const l = $('#cloudStatusLine'); if(l){ l.className = 'c-status ' + kind; l.textContent = text; }
+  updatePill();
+}
+function updatePill(){
+  const p = $('#cloudPill');
+  if(!session){ p.hidden = !parseLocked(lockedToken()); p.className = 'cloud-pill'; p.textContent = '☁️ 잠김'; return; }
+  p.hidden = false; p.className = 'cloud-pill ' + cloudStatus.kind;
+  p.textContent = (cloudStatus.kind === 'warn' || cloudStatus.kind === 'err' ? '⚠️ ' : '☁️ ') + (cloudStatus.text || '연결됨');
+  p.title = cloudStatus.text || '';
+}
+function cloudTouched(){
+  try{
+    if(suppressCloud) return;
+    cloud.dirty = true; saveCloudCfg();
+    if(session && cloud.autoSave && !cloud.conflict){ setCloudStatus('sync', '변경됨'); schedulePush(); }
+  }catch(e){ /* 초기화 전 호출 */ }
+}
+function schedulePush(){ clearTimeout(pushTimer); pushTimer = setTimeout(() => cloudPush(false), 2500); }
+
+async function cloudPush(manual){
+  if(!session) return;
+  if(busy){ if(!manual) schedulePush(); return; }
+  clearTimeout(pushTimer);
+  busy = true; setCloudStatus('sync', '저장 중…');
+  try{
+    const remote = await getRemote();
+    if(remote && remote.updated_at !== cloud.lastRemote){
+      if(!manual){
+        cloud.conflict = true; saveCloudCfg();
+        setCloudStatus('warn', '다른 기기 기록 있음 · 선택 필요');
+        toast('☁️ 다른 기기에 새 기록이 있어요. 옵션 → 클라우드 저장에서 저장/불러오기를 골라 주세요');
+        return;
+      }
+      if(!confirm(`서버에 다른 기기에서 저장한 기록이 있어요 (${fmtTime(remote.updated_at)}).\n이 기기 기록으로 덮어쓸까요?`)){ setCloudStatus('warn', '저장 취소됨'); return; }
+    }
+    const box = await sealWith(session.dataKey, JSON.stringify(state));
+    const content = JSON.stringify({ app:'study-planner', v:1, savedAt:new Date().toISOString(), ...box });
+    const body = remote ? { files:{ [GIST_FILE]:{ content } } }
+                        : { description:'📚 공부 스케줄러 백업 (암호화됨)', public:false, files:{ [GIST_FILE]:{ content } } };
+    const g = await gh(remote ? '/gists/' + remote.id : '/gists', { method: remote ? 'PATCH' : 'POST', body: JSON.stringify(body) });
+    Object.assign(cloud, { gistId:g.id, lastRemote:g.updated_at, lastSync:Date.now(), dirty:false, conflict:false }); saveCloudCfg();
+    setCloudStatus('ok', '저장됨 ' + fmtTime(cloud.lastSync));
+    if(manual) toast('☁️ 서버에 저장했어요');
+  }catch(e){ setCloudStatus('err', e.message); if(manual) toast('⚠️ ' + e.message); }
+  finally{ busy = false; }
+}
+
+function applyRemote(data){
+  if(!data || !Array.isArray(data.tasks)) throw new Error('서버 기록 형식이 올바르지 않아요');
+  const d = defaultState();
+  state = { ...d, ...data, settings:{ ...d.settings, ...(data.settings || {}) } };
+  suppressCloud = true; save(); suppressCloud = false;
+  checkDayChange(); render();
+}
+async function cloudPull(manual){
+  if(!session || busy) return;
+  busy = true; setCloudStatus('sync', '불러오는 중…');
+  let pushAfter = false;
+  try{
+    const remote = await getRemote();
+    if(!remote){
+      setCloudStatus('ok', '서버에 기록 없음');
+      if(manual) toast('서버에 저장된 기록이 없어요. 먼저 저장해 주세요');
+      else pushAfter = cloud.autoSave && state.tasks.length > 0;
+      return;
+    }
+    if(!manual){
+      if(remote.updated_at === cloud.lastRemote){ setCloudStatus('ok', cloud.dirty ? '변경됨' : '최신 상태'); pushAfter = cloud.dirty && cloud.autoSave; return; }
+      const clean = cloud.lastRemote ? !cloud.dirty : !state.tasks.length;
+      if(!clean){
+        cloud.conflict = true; saveCloudCfg();
+        setCloudStatus('warn', '양쪽 모두 바뀜 · 선택 필요');
+        toast('☁️ 이 기기와 서버 기록이 모두 바뀌었어요. 옵션 → 클라우드 저장에서 골라 주세요');
+        return;
+      }
+    }
+    let data;
+    try{ data = JSON.parse(await openWith(session.dataKey, JSON.parse(await remoteContent(remote)))); }
+    catch(e){ throw new Error('암호가 달라서 서버 기록을 열 수 없어요'); }
+    if(manual && !confirm(`서버 기록(${fmtTime(remote.updated_at)} 저장)으로 바꿀까요?\n지금 이 기기의 기록은 덮어써져요.`)){ setCloudStatus('', ''); return; }
+    applyRemote(data);
+    Object.assign(cloud, { gistId:remote.id, lastRemote:remote.updated_at, lastSync:Date.now(), dirty:false, conflict:false }); saveCloudCfg();
+    setCloudStatus('ok', '불러옴 ' + fmtTime(cloud.lastSync));
+    toast('☁️ 서버 기록을 불러왔어요');
+  }catch(e){ setCloudStatus('err', e.message); if(manual) toast('⚠️ ' + e.message); }
+  finally{ busy = false; if(pushAfter) schedulePush(); }
+}
+
+async function cloudUnlock(pw, remember){
+  const b = parseLocked(lockedToken());
+  if(!b){ toast('잠긴 토큰이 없어요. 먼저 토큰을 설정해 주세요'); return false; }
+  setCloudStatus('sync', '잠금 해제 중…');
+  try{
+    const [k1, k2] = await Promise.all([kdf(pw, unb64(b.s), b.it || KDF_IT), kdf(pw, DATA_SALT, KDF_IT)]);
+    session = { token: await openWith(k1, b), dataKey: k2 };
+  }catch(e){
+    session = null; setCloudStatus('err', '암호가 맞지 않아요'); toast('🔒 암호가 맞지 않아요');
+    if(cloud.pw){ delete cloud.pw; saveCloudCfg(); }
+    return false;
+  }
+  if(remember) cloud.pw = pw; else delete cloud.pw;
+  saveCloudCfg();
+  setCloudStatus('ok', '연결됨');
+  renderCloud();
+  if(cloud.autoLoad) await cloudPull(false);
+  else if(cloud.dirty && cloud.autoSave) schedulePush();
+  return true;
+}
+async function cloudSetup(token, p1, p2){
+  token = token.trim();
+  if(!token) return toast('토큰을 입력해 주세요');
+  if(p1.length < 10) return toast('암호는 10자 이상으로 정해 주세요');
+  if(p1 !== p2) return toast('암호 확인이 일치하지 않아요');
+  setCloudStatus('sync', '토큰 확인 중…');
+  try{ await gh('/gists?per_page=1', {}, token); }
+  catch(e){ setCloudStatus('err', e.message); toast('⚠️ ' + e.message); return; }
+  setCloudStatus('sync', '토큰 잠그는 중…');
+  const locked = await makeLocked(token, p1);
+  cloud.locked = locked; saveCloudCfg();
+  cloudOut = locked; cloudMode = null; session = null;
+  renderCloud();
+  await cloudUnlock(p1, false);
+  renderCloud();
+}
+function cloudLock(){
+  clearTimeout(pushTimer); session = null; cloudOut = '';
+  delete cloud.pw; saveCloudCfg();
+  setCloudStatus('', ''); renderCloud(); toast('🔒 잠갔어요');
+}
+
+function renderCloud(){
+  const el = $('#cloudBody'); if(!el) return;
+  const hasLocked = !!parseLocked(lockedToken());
+  const mode = (cloudMode === 'setup' || !hasLocked) ? 'setup' : session ? 'on' : 'locked';
+  let h = '';
+  if(mode === 'setup'){
+    h = `<p class="c-desc">GitHub 토큰(Gist 권한만)과 암호를 넣으면 토큰을 암호로 잠가요. 그다음부터는 <b>암호만</b>으로 저장·불러오기를 할 수 있어요. 진행 상황도 같은 암호로 암호화해서 비공개 Gist에 저장해요.</p>
+      <div class="field"><label>GitHub 토큰 <small>(gist 권한만 준 토큰)</small></label><input type="password" id="cTok" placeholder="ghp_… 또는 github_pat_…" autocomplete="off"></div>
+      <div class="row2">
+        <div class="field"><label>암호 <small>(10자 이상, 길수록 안전)</small></label><input type="password" id="cPw1" autocomplete="new-password"></div>
+        <div class="field"><label>암호 확인</label><input type="password" id="cPw2" autocomplete="new-password"></div>
+      </div>
+      <p class="c-desc warn">⚠️ 암호를 잊으면 서버 기록을 복구할 수 없어요. 기존 데이터를 계속 열려면 전과 같은 암호를 쓰세요.</p>
+      <div class="c-btns"><button class="btn primary" data-cloud="setup">토큰 확인하고 잠그기</button>${hasLocked ? '<button class="btn ghost" data-cloud="cancelSetup">취소</button>' : ''}</div>`;
+  } else if(mode === 'locked'){
+    h = `<p class="c-desc">🔒 암호를 넣으면 서버에 저장하고 불러올 수 있어요.</p>
+      <div class="field"><label>암호</label><input type="password" id="cPw" autocomplete="current-password"></div>
+      <label class="chkline"><input type="checkbox" id="cRemember"> 이 기기에서 암호 기억 <small>(내 기기에서만 켜세요)</small></label>
+      <div class="c-btns"><button class="btn primary" data-cloud="unlock">잠금 해제</button><button class="btn ghost sm" data-cloud="resetup">토큰 다시 설정</button></div>`;
+  } else {
+    h = `<p class="c-desc">🔓 연결됨${cloud.lastSync ? ` · 마지막 동기화 ${fmtTime(cloud.lastSync)}` : ''}</p>
+      <div class="c-btns"><button class="btn primary" data-cloud="push">⬆ 서버에 저장</button><button class="btn" data-cloud="pull">⬇ 서버에서 불러오기</button></div>
+      <div class="opt-row"><div><b>자동 저장</b><small>기록이 바뀌면 몇 초 뒤 자동으로 서버에 저장</small></div><label class="switch"><input type="checkbox" data-cloudopt="autoSave" ${cloud.autoSave ? 'checked' : ''}><i></i></label></div>
+      <div class="opt-row"><div><b>열 때 자동 불러오기</b><small>다른 기기에서 바뀐 기록을 가져와요</small></div><label class="switch"><input type="checkbox" data-cloudopt="autoLoad" ${cloud.autoLoad ? 'checked' : ''}><i></i></label></div>
+      <div class="c-btns"><button class="btn ghost sm" data-cloud="lock">🔒 잠그기</button><button class="btn ghost sm" data-cloud="resetup">토큰 다시 설정</button>${cloud.gistId ? `<a class="btn ghost sm" href="https://gist.github.com/${esc(cloud.gistId)}" target="_blank" rel="noopener">Gist 보기 ↗</a>` : ''}</div>`;
+  }
+  if(cloudOut && mode !== 'setup') h += `<div class="c-out"><div class="preview">✅ 잠긴 토큰을 만들었어요. <b>이 기기에서는 바로 쓸 수 있어요.</b><br>
+    다른 기기에서도 암호만으로 쓰려면, 아래 문자열을 HTML 파일의 <code>const CLOUD_LOCKED_TOKEN = '';</code> 따옴표 안에 붙여넣고 GitHub에 다시 올려 주세요.</div>
+    <textarea readonly id="cOut">${esc(cloudOut)}</textarea><button class="btn sm" data-cloud="copy">📋 복사</button></div>`;
+  h += `<div class="c-status ${cloudStatus.kind}" id="cloudStatusLine">${esc(cloudStatus.text || '')}</div>`;
+  el.innerHTML = h;
+}
+
+$('#cloudPill').onclick = () => { view = 'options'; render(); };
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-cloud]'); if(!b) return;
+  const a = b.dataset.cloud;
+  if(a === 'setup'){ b.disabled = true; try{ await cloudSetup($('#cTok').value, $('#cPw1').value, $('#cPw2').value); } finally{ b.disabled = false; } }
+  else if(a === 'unlock'){
+    const pw = $('#cPw').value; if(!pw) return toast('암호를 입력해 주세요');
+    b.disabled = true; const ok = await cloudUnlock(pw, $('#cRemember').checked);
+    if(ok) toast('🔓 클라우드에 연결됐어요'); renderCloud();
+  }
+  else if(a === 'push') cloudPush(true);
+  else if(a === 'pull') cloudPull(true);
+  else if(a === 'lock') cloudLock();
+  else if(a === 'resetup'){ cloudMode = 'setup'; renderCloud(); }
+  else if(a === 'cancelSetup'){ cloudMode = null; renderCloud(); }
+  else if(a === 'copy'){
+    const done = () => toast('📋 복사했어요');
+    (navigator.clipboard ? navigator.clipboard.writeText(cloudOut) : Promise.reject()).then(done)
+      .catch(() => { $('#cOut').select(); document.execCommand('copy'); done(); });
+  }
+});
+document.addEventListener('change', e => {
+  const o = e.target.dataset && e.target.dataset.cloudopt; if(!o) return;
+  cloud[o] = e.target.checked; saveCloudCfg();
+  if(o === 'autoSave' && cloud.autoSave && cloud.dirty && !cloud.conflict) schedulePush();
+});
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Enter') return;
+  if(e.target.id === 'cPw') $('[data-cloud="unlock"]').click();
+  if(e.target.id === 'cPw2') $('[data-cloud="setup"]').click();
+});
+document.addEventListener('visibilitychange', () => {
+  if(!session) return;
+  if(document.hidden){ if(pushTimer && cloud.autoSave && !cloud.conflict){ clearTimeout(pushTimer); pushTimer = null; cloudPush(false); } }
+  else if(cloud.autoLoad && !cloud.conflict) cloudPull(false);
+});
+
 /* ---------- start ---------- */
 checkDayChange();
 render();
 setInterval(() => { if(checkDayChange()){ const t = pd(studyDay()); calY = t.getFullYear(); calM = t.getMonth(); render(); } else updateResetInfo(); }, 30000);
 document.addEventListener('visibilitychange', () => { if(!document.hidden && checkDayChange()) render(); });
+updatePill();
+if(cloud.pw && parseLocked(lockedToken())) cloudUnlock(cloud.pw, true).then(() => { if(view === 'options') renderCloud(); });
 })();
 </script>
 </body>
